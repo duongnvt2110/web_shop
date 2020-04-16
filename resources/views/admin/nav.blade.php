@@ -1,7 +1,7 @@
 {{--  <div class="card">
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link active" href="{{route('home')}}" aria-selected="true">Dashboard</a>
+            <a class="nav-link active" href="{{route('admin')}}" aria-selected="true">Dashboard</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#" data-toggle="collapse" data-target="#navbarToggleExtraPage"

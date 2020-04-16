@@ -1,6 +1,6 @@
 <?php
 use Symfony\Component\HttpFoundation\Session\Session;
-
+use App\Events\MessagePosted;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +17,8 @@ Route::get('/', function () {
 });
 Route::get('/','HomeController@index');
 Auth::routes();
+
+
 
 // confirm email affter user register
 Route::get('/register/confirm','ConfirmTokenController@index')->name('register.confirm');
@@ -100,4 +102,27 @@ Route::group(['middleware'=>'auth'], function() {
     Route::post('/cart/minus/{id}','CartController@minusQuantity')->name('user.minus.quatity')->where('id', '[0-9]+');
     Route::post('/cart/plus/{id}','CartController@plusQuantity')->name('user.plus.quatity')->where('id', '[0-9]+');
     Route::delete('/cart/delete/{id}','CartController@delete')->name('user.plus.quatity')->where('id', '[0-9]+');
+
+
+    // // chat
+    // Route::get('/chat', function() {
+    //     return view('chat');
+    // });
+    // Route::get('/getUserLogin', function() {
+    //     return Auth::user();
+    // });
+    // Route::get('/messages', function() {
+    //     return App\Message::with('user')->get();
+    // });
+    // Route::post('/messages', function() {
+    //     $user = Auth::user();
+    //     $message = $user->messages()->create([
+    //         'message' => request()->get('message')
+    //     ]);
+    //     broadcast(new App\Events\MessagePosted($message, $user))->toOthers();
+    //     return ['status' => 'OK'];
+    // });
+
 });
+
+

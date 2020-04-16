@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Category;
+use App\Filters\ProductFilters;
+use App\Repositories\Product\ProductRepositoryInterface;
 class ProductController extends Controller
 {
-
-    public function __construct(Product $product)
+    protected $product;
+    
+    public function __construct(ProductRepositoryInterface $productRepo)
     {
-        $this->product = $product;
+        $this->product = $productRepo;
 
     }
     /**
@@ -147,7 +150,7 @@ class ProductController extends Controller
         return $this->product->latest()->paginate(10);
     }
 
-    public function search(Request $request)
+    public function search(Request $request,ProductFilters $filters)
     {
 
         $orderPrice = 'DESC';
@@ -173,6 +176,6 @@ class ProductController extends Controller
             ->orderBy('price',$orderPrice)
             ->paginate(10);
         }
-
+        // return $this->product->filter($filters);
     }
 }

@@ -5,6 +5,13 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Mail;
+use Symfony\Component\Debug\Exception\FlattenException;
+use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
+use App\Mail\ExceptionOccured;
+use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -34,6 +41,9 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if($this->shouldReport($exception)){
+            $this->sendMail($exception);
+        }
         parent::report($exception);
     }
 
@@ -52,6 +62,9 @@ class Handler extends ExceptionHandler
             }
         }
 
+        if ($exception instanceof NotFoundHttpException) {
+            return redirect()->route('home');
+        }
         if ($exception instanceof \ThrottleException) {
             return response($exception->getMessage(), 429);
         }
@@ -68,5 +81,16 @@ class Handler extends ExceptionHandler
             return redirect()->guest('admin/login');
         }
         return redirect()->guest(route('login'));
+    }
+
+    public function sendMail(Exception $exception){
+        try {
+            $e = FlattenException::create($exception);
+            $handler = new SymfonyExceptionHandler();
+            $html = $handler->getHtml($e);
+            Mail::to('meocom10@gmail.com')->send(new ExceptionOccured($html));
+        } catch (\Throwable $e) {
+            //throw $th;
+        }
     }
 }

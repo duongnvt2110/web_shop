@@ -8,6 +8,8 @@ use App\Admin;
 use App\User;
 use App\Order;
 use Session;
+use App\Filters\ProductFilters;
+use Illuminate\Database\Eloquent\Builder;
 class Product extends Model
 {
     //
@@ -96,5 +98,9 @@ class Product extends Model
             'fee_ship'=>$product->fee_ship,
         ]);
 
+    }
+
+    public function scopeFilter($query,ProductFilters $filters){
+        return $filters->apply($query);
     }
 }

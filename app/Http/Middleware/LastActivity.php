@@ -21,7 +21,6 @@ class LastActivity
             }
 
             $user = Auth::user();
-            dd($user);
             $user->update([
                 'last_activity' => Carbon::now(),
             ]);

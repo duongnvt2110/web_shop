@@ -1,13 +1,6 @@
 <div class="container">
     <a class="navbar-brand" href="{{ url('/') }}">
-        <div class="logo-container">
-            <div class="logo">
-                <img src="{{asset('storage/logo.jpg')}}" alt="Shop"/>
-            </div>
-            <div class="brand">
-                {{ config('app.name', 'Laravel') }}
-            </div>
-        </div>
+        {{ config('app.name', 'Laravel') }}
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -15,19 +8,18 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <!-- Left Side Of Navbar -->
-        {{--  <ul class="navbar-nav mr-auto">
-        </ul>  --}}
         <!-- Right Side Of Navbar -->
         <ul class="navbar-nav ml-auto">
             <!-- Authentication Links -->
             @guest
-            <li class="nav-item">
-                <a class="nav-link nav-link-icon" href="{{ isset($prefix) ? route('admin'):route('home') }}">
-                    <i class="fas fa-tasks"></i>
-                    {{__('Dashboard')}}
-                </a>
-            </li>
+            @if( Request::is('admin/*'))
+                <li class="nav-item">
+                    <a class="nav-link nav-link-icon" href="{{ isset($prefix) ? route('admin'):route('home') }}">
+                        <i class="fas fa-tasks"></i>
+                        {{__('Dashboard')}}
+                    </a>
+                </li>
+            @endif
             <li class="nav-item">
                 <a class="nav-link nav-link-icon" href="{{ isset($prefix) ? route('get.login'):route('login') }}">
                     <i class="fas fa-key"></i>

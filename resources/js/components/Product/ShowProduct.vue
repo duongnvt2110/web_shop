@@ -133,10 +133,7 @@
                 });
             },
             searchProduct(){
-                axios.post(this.$url+'/admin/product/search?text='+this.search_text+
-                    '&price='+this.price+
-                    '&category_id='+this.category,{
-
+                axios.post(this.$url+'/admin/product/search',{
                         search_text:this.search_text,
                         price:this.price,
                         category:this.category

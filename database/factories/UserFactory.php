@@ -57,8 +57,8 @@ $factory->define(Product::class, function (Faker $faker) {
         'category_id' => function () {
             return factory('App\Category')->create()->id;
         },
-        'thumnail'=>'http://localhost/Laravel/shop/public/photos/1/download.jpg',
-        'image'=>json_encode(['http://localhost/Laravel/shop/public/photos/1/download.jpg','http://localhost/Laravel/shop/public/photos/1/55560418_2085099621559601_5143407298999222272_n.jpg']),
+        'thumnail'=>'/photos/1/download.jpg',
+        'image'=>json_encode(['/photos/1/download.jpg','/photos/1/55560418_2085099621559601_5143407298999222272_n.jpg']),
         'product_name' => $name,
         'slug' => $name,
         'published'=>false,

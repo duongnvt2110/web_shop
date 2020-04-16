@@ -54,6 +54,9 @@ Vue.component('home-product',require('./components/Home/HomeProduct.vue').defaul
 Vue.component('flash',require('./components/Flash.vue').default);
 Vue.component('paginate',require('./components/Paginate.vue').default);
 
+// chat
+Vue.component('chat-layout', require('./components/ChatLayout.vue').default)
+
 import Vue from 'vue';
 import CKEditor from '@ckeditor/ckeditor5-vue';
 
@@ -61,4 +64,18 @@ Vue.use( CKEditor );
 
 const app = new Vue({
     el: '#app',
+    data: {
+        currentUserLogin: {}
+    },
+    created() {
+        this.getCurrentUserLogin()
+    },
+    methods: {
+        getCurrentUserLogin() {
+            axios.get(this.$url+'/getUserLogin')
+            .then(response => {
+                this.currentUserLogin = response.data
+            })
+        }
+    }
 })

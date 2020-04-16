@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Category;
+use App\Repositories\Category\CategoryRepositoryInterface;
 
 class CategoryController extends Controller
 {
-//
-    public function __construct(Category $category)
+    protected $category;
+
+    public function __construct(CategoryRepositoryInterface $category)
     {
     	$this->category = $category;
     }
+
     public function index(){
 
         return view('categories.index');
@@ -20,7 +23,7 @@ class CategoryController extends Controller
 
     public function paginate(){
 
-        return $this->category->latest()->paginate(10);
+        return $this->category->paginate();
 
         // return response()->json($categories);
     }
@@ -32,9 +35,12 @@ class CategoryController extends Controller
             'name'=>'required|unique:categories'
         ]);
 
-        $category->storeCategory($request);
+        $this->category->create([
+            'name'=>$category->name,
+            'slug'=>$category->slug,
+        ]);
 
-        $category=Category::latest()->paginate(10);
+        $category=$this->category->paginate();
         // $request->session()->flash('flash','Created New Category');
 
         return response($category,200);
@@ -43,33 +49,34 @@ class CategoryController extends Controller
 
     public function destroy($id){
 
-        $category=Category::find($id);
+        $category=$this->category->find($id);
 
         $category->delete();
 
-        $category= $this->category->latest()->paginate(10);
+        $category= $this->category->paginate();
 
         return response($category,200);
     }
 
     public function edit($id)
     {
-
-        $category = Category::find($id);
-
+        $category=$this->category->find($id);
         return response($category,200);
     }
 
-    public function update(Request $request ,Category $category){
+    public function update(Request $request){
 
         $request->validate([
             'slug'=>'required|unique:categories,slug,'.$request->id,
             'name'=>'required|unique:categories,name,'.$request->id
         ]);
 
-        $category->updateCategory($request);
+        $this->category->update($request->id,[ 
+            'name'=>$request->name,
+            'slug'=>$request->slug
+        ]);
 
-        $category=$this->category->latest()->paginate(10);
+        $category=$this->category->paginate();
 
         return response($category,200);
     }

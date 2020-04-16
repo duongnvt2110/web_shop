@@ -26,24 +26,16 @@
 
     <!-- Styles -->
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
-    @yield('head')
+    {{-- @yield('head') --}}
 </head>
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-top">
-            @if(Request::is('admin/*'))
-                @include('layouts.nav_admin_landing')
-            @else
-                @include('layouts.nav_user_landing')
-            @endif
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+            @include('layouts.nav')
         </nav>
         <div class="wrapper">
-            @if(Request::is('admin/*'))
-                @include('layouts.wrapper_admin_landing')
-            @else
-                @include('layouts.wrapper_user_landing')
-            @endif
+            @include('layouts.wrapper')
         </div>
     </div>
 </body>
